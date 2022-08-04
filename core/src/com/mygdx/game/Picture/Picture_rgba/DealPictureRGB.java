@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.game.DealInterface;
+import com.mygdx.game.Logic.ToolInterface.DealInterface;
 
 import java.io.File;
 import java.util.HashMap;
@@ -19,7 +19,15 @@ public class DealPictureRGB implements DealInterface {
     protected HashMap<String, Color> pixelHashMap = new HashMap<>();
 
     @Override
-    public void deal(File readFile, File writeFile) {
+    public void deal(String readPath, String writePath) {
+        if (readPath == null) {
+            return;
+        }
+        File readFile = new File(readPath);
+        if (!readFile.exists()) {
+            return;
+        }
+
         pixelHashMap.clear();
         String pictureName = readFile.getName();
         Pixmap px = new Pixmap(new FileHandle(readFile));
@@ -87,7 +95,7 @@ public class DealPictureRGB implements DealInterface {
                 px2.drawPixel(x, y, c.rgba8888(c));
             }
         }
-        PixmapIO.writePNG(new FileHandle(writeFile.getAbsoluteFile() + File.separator + pictureName), px2);
+        PixmapIO.writePNG(new FileHandle(writePath + File.separator + pictureName), px2);
 
         Pixmap px3 = new Pixmap(px.getWidth(), px.getHeight(), px.getFormat());
         for (int x = 0; x < px.getWidth(); x++) {
@@ -100,7 +108,7 @@ public class DealPictureRGB implements DealInterface {
             }
         }
 
-        PixmapIO.writePNG(new FileHandle(writeFile.getAbsoluteFile() + File.separator + "debug.png"), px3);
+        PixmapIO.writePNG(new FileHandle(writePath + File.separator + "debug.png"), px3);
     }
 
 

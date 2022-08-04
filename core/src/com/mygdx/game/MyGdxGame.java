@@ -28,11 +28,16 @@ public class MyGdxGame extends ApplicationAdapter {
 //        }
 //        toolManager.getParticleComposite(readPath, writePath).composite();
 
-        toolManager.dealPictureRGB(null);
+//        toolManager.dealPictureRGB();
+        toolManager.dealSpineCombination();
     }
 
     public Stage getStage() {
         return stage;
+    }
+
+    public String[] getFormalParameter() {
+        return formalParameter;
     }
 
     @Override

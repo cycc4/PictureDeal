@@ -1,17 +1,14 @@
 package com.mygdx.game.Manager;
 
 import com.mygdx.game.ConstantValue;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Logic.Tool.Particle.ParticleComposite;
-import com.mygdx.game.Picture.Picture_rgba.DealPictureRGB;
-import com.mygdx.game.Picture.Picture_rgba.DealPictureRGB2;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Picture.Picture_rgba.DealPictureRGB3;
+import com.mygdx.game.SpineCombination.SpineCombination;
 
-import java.io.File;
 
 public class ToolManager {
     MyGdxGame myGdxGame;
-
 
     public ToolManager(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -23,10 +20,21 @@ public class ToolManager {
     }
 
     //将图片中有颜色的区域周围加一圈像素
-    public void dealPictureRGB(File pictureF) {
+    public void dealPictureRGB() {
         DealPictureRGB3 deal = new DealPictureRGB3();
-        if (ConstantValue.isDebug) {
-            deal.deal(new File(ConstantValue.SRC_PATH + File.separator + "BRONZE.png"), new File(ConstantValue.DIR_PATH));
-        }
+        deal.deal(getReadPath(), getWritePath());
+    }
+
+    public void dealSpineCombination() {
+        SpineCombination spineCombination = new SpineCombination();
+        spineCombination.deal(getReadPath(), getWritePath());
+    }
+
+    public String getReadPath() {
+        return ConstantValue.isDebug ? ConstantValue.SRC_PATH : myGdxGame.getFormalParameter()[0];
+    }
+
+    public String getWritePath() {
+        return ConstantValue.isDebug ? ConstantValue.DIR_PATH : myGdxGame.getFormalParameter()[1];
     }
 }

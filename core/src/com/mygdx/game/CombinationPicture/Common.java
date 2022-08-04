@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import com.mygdx.game.Tools.FileUtils;
+import com.mygdx.game.Tools.FileTool;
 
 import java.io.File;
 
@@ -22,7 +22,7 @@ public class Common {
             File externSettingFile = new File(externSettingPath);
             if (externSettingFile.exists()) {
                 try {
-                    settings = JSON.parseObject(FileUtils.file2String(new FileHandle(externSettingFile)), TexturePacker.Settings.class);
+                    settings = JSON.parseObject(FileTool.file2String(new FileHandle(externSettingFile)), TexturePacker.Settings.class);
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();

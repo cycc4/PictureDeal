@@ -1,4 +1,4 @@
-package com.mygdx.game.Logic.FntDeal;
+package com.mygdx.game.Logic.Fnt;
 
 /*
  * 解析fnt文件

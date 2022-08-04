@@ -1,42 +1,39 @@
-package com.mygdx.game.Logic.FntDeal;
+package com.mygdx.game.Logic.Atlas;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
-import com.mygdx.game.Logic.Atlas.AtlasIDData;
-import com.mygdx.game.Logic.Atlas.AtlasTitleData;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-/*
- * 解析atlas文件
- */
-
 public class ReadAtlas {
-    private AtlasTitleData atlastitledata = new AtlasTitleData();
-    private HashMap<String, AtlasIDData> charHashMap = new HashMap<String, AtlasIDData>();
+    private HashMap<String, AtlasTitleData> titleDataHashMap = new HashMap<>();
 
-    public ReadAtlas() {
-    }
+    private HashMap<String, AtlasIDData> pngNameHashMap = new HashMap<String, AtlasIDData>();
 
-    public AtlasTitleData getAtlastitleData() {
-        return atlastitledata;
+    public AtlasTitleData getAtlastitleData(String key) {
+        return titleDataHashMap.get(key);
     }
 
     public AtlasIDData getAtlasIDData(String key) {
-        return charHashMap.get(key);
+        return pngNameHashMap.get(key);
     }
 
     public HashMap<String, AtlasIDData> getCharHashMap() {
-        return charHashMap;
+        return pngNameHashMap;
+    }
+
+    public HashMap<String, AtlasTitleData> getTitleDataHashMap() {
+        return titleDataHashMap;
     }
 
     public void load(FileHandle fileHandle) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(fileHandle.read()), 64);
+        String atlasPngName = null;
 
         try {
             while (true) {
@@ -46,24 +43,36 @@ public class ReadAtlas {
                 }
 
                 if (line.trim().length() == 0) {
-                } else if (atlastitledata.pngFileName == null) {
-                    atlastitledata.pngFileName = line;
+                    atlasPngName = null;
+                } else if (line.endsWith(".png")) {
+                    if (titleDataHashMap.containsKey(line)) {
+                        while (true) {
+                            line = reader.readLine();
+                            if (line.trim().length() == 0) {
+                                break;
+                            }
+                        }
+                        continue;
+                    }
+                    atlasPngName = line;
 
+                    AtlasTitleData atlasTitleData = new AtlasTitleData();
+                    titleDataHashMap.put(line, atlasTitleData);
                     line = reader.readLine();
                     if ((line = getValueString(line, "size:")) != null) {
                         String[] sArr = line.split(",");
-                        atlastitledata.width = Integer.parseInt(sArr[0]);
-                        atlastitledata.height = Integer.parseInt(sArr[1]);
+                        atlasTitleData.width = Integer.parseInt(sArr[0]);
+                        atlasTitleData.height = Integer.parseInt(sArr[1]);
                     }
                     line = reader.readLine();
                     if ((line = getValueString(line, "format:")) != null) {
-                        atlastitledata.format = Pixmap.Format.valueOf(line);
+                        atlasTitleData.format = Pixmap.Format.valueOf(line);
                     }
                     line = reader.readLine();
                     if ((line = getValueString(line, "filter:")) != null) {
                         String[] sArr = line.split(",");
-                        atlastitledata.minFilter = Texture.TextureFilter.valueOf(sArr[0]);
-                        atlastitledata.magFilter = Texture.TextureFilter.valueOf(sArr[1]);
+                        atlasTitleData.minFilter = Texture.TextureFilter.valueOf(sArr[0]);
+                        atlasTitleData.magFilter = Texture.TextureFilter.valueOf(sArr[1]);
                     }
                     line = reader.readLine();
                     if ((line = getValueString(line, "repeat")) != null) {
@@ -77,8 +86,8 @@ public class ReadAtlas {
                             repeatX = Texture.TextureWrap.Repeat;
                             repeatY = Texture.TextureWrap.Repeat;
                         }
-                        atlastitledata.repeatX = repeatX;
-                        atlastitledata.repeatY = repeatY;
+                        atlasTitleData.repeatX = repeatX;
+                        atlasTitleData.repeatY = repeatY;
                     }
                 } else {
                     String id = line;
@@ -108,7 +117,10 @@ public class ReadAtlas {
                     line = reader.readLine();
                     atlaschardata.index = Integer.parseInt(getValueString(line, "index:"));
 
-                    charHashMap.put(id, atlaschardata);
+                    atlaschardata.titlePngFileName = atlasPngName;
+                    pngNameHashMap.put(id, atlaschardata);
+                    getAtlastitleData(atlasPngName).atlasPngNameArray.add(id);
+
                 }
             }
         } catch (Exception var19) {
@@ -119,7 +131,18 @@ public class ReadAtlas {
     }
 
     public void write(FileHandle fileHandle) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String key : titleDataHashMap.keySet()) {
+            stringBuffer.append("\n" + key + "\n");
+            AtlasTitleData atlasTitleData = titleDataHashMap.get(key);
+            stringBuffer.append(atlasTitleData.writeString());
+            for (String pngName : atlasTitleData.atlasPngNameArray) {
+                stringBuffer.append(pngName + "\n");
+                stringBuffer.append(pngNameHashMap.get(key).writeString());
+            }
+        }
 
+        fileHandle.writeString(stringBuffer.toString(), false);
     }
 
     public String getValueString(String s, String startWithString) {

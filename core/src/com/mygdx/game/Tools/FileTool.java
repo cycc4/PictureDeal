@@ -19,7 +19,7 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.util.Date;
 
-public class FileUtils {
+public class FileTool {
     public static String file2String(FileHandle file) {
         BufferedReader br;
         StringBuilder strBlder = new StringBuilder("");
@@ -180,4 +180,23 @@ public class FileUtils {
 
     private static final String ALGORIGTHM_MD5 = "MD5";
     private static final int CACHE_SIZE = 2048;
+
+    public static void mkdir(File dirFile) {
+        if (dirFile.exists()) {
+            dirFile.delete();
+        }
+        dirFile.mkdir();
+    }
+
+    public static File getFileDir(File dirFile) {
+        if (dirFile.exists()) {
+            return dirFile;
+        }
+        mkdir(dirFile);
+        return dirFile;
+    }
+
+    public static void moveTo(File file, File destFile) {
+        file.renameTo(destFile);
+    }
 }
