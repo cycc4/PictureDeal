@@ -1,10 +1,11 @@
 package com.mygdx.game.Logic.Tool.Particle;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.mygdx.game.CallBack.RecursionReversalDir;
 import com.mygdx.game.CallBack.ReversalDir;
 import com.mygdx.game.CombinationPicture.PackPictureBat;
-import com.mygdx.game.ConstantValue;
 import com.mygdx.game.Logic.Tool.Read.ReadFile;
+import com.mygdx.game.Logic.ToolInterface.DealInterface;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,89 +13,73 @@ import java.io.File;
 /*
 对当前目录下的所有例子进行合图操作
 * */
-public class ParticleComposite {
-    public FileHandle readFileHandle;
+public class ParticleComposite implements DealInterface {
     public FileHandle writeFileHandle;
     public String tempPngPath;
-    public String particleAtlasName;
 
-    public ParticleComposite(String readPath, String writePath, String particleAtlasName) {
-        this(readPath, writePath);
-        this.particleAtlasName = particleAtlasName;
+    public ParticleComposite() {
     }
 
-    public ParticleComposite(String readPath, String writePath) {
-        if (readPath == null) {
-            readPath = ConstantValue.SRC_PATH;
-        }
-        readFileHandle = new FileHandle(readPath);
-
-        if (writePath == null) {
-            writePath = ConstantValue.DIR_PATH;
-        }
+    @Override
+    public void deal(String readPath, String writePath) {
+        FileHandle readFileHandle = new FileHandle(readPath);
         writeFileHandle = new FileHandle(writePath);
-
         tempPngPath = writePath + File.separator + "particle" + File.separator;
-
         File tempPngFile = new File(tempPngPath);
         if (!tempPngFile.exists()) {
             tempPngFile.mkdir();
         }
-    }
 
-    public void composite() {
-        dealParticle(readFileHandle);
-        new PackPictureBat(tempPngPath, writeFileHandle.path(), "particle");
-//        TexturePacker.process(CombinationSetting.getTexturePackerSetting(), tempPngPath, writeFileHandle.path(), "particle");
-    }
-
-    private void dealParticle(FileHandle dir) {
-        if (dir == null) return;
-        ReversalDir reversalDir = new ReversalDir(dir, null) {
+        new ReversalDir(readFileHandle, writePath) {
             @Override
-            protected void callback(FileHandle f, String writePath) {
-                String dirName = f.name();
-                if (f.isDirectory()) {
-                    dealParticle(f);
-                } else {
-                    String name = f.name();
-                    if (name.endsWith(".png") || name.endsWith(".jpg")) {
-                        //使用copy將圖片複製到指定目錄
-                        f.copyTo(new FileHandle(tempPngPath + dirName + "_" + name));
-                    } else {
-                        StringBuffer sb = new StringBuffer();
-                        BufferedReader br = ReadFile.getBufferedReader(f);
-                        String line;
-                        try {
-                            while ((line = br.readLine()) != null) {
-                                if (line.equals("- Image Paths -")) {
-                                    sb.append(line + "\n");
+            protected void callback(FileHandle readFile, String writeFile) {
+                if (readFile.isDirectory()) {
+                    final String dirName = readFile.name();
+                    new RecursionReversalDir(readFile, writeFile) {
+                        @Override
+                        protected void callback(FileHandle readFile, String writeFile) {
+                            String name = readFile.name();
+                            System.out.println("read File name is:  " + name);
+                            if (name.endsWith(".png") || name.endsWith(".jpg")) {
+                                //使用copy將圖片複製到指定目錄
+                                readFile.copyTo(new FileHandle(tempPngPath + dirName + "_" + name));
+                            } else {
+                                StringBuffer sb = new StringBuffer();
+                                BufferedReader br = ReadFile.getBufferedReader(readFile);
+                                String line;
+                                try {
                                     while ((line = br.readLine()) != null) {
-                                        if (line.endsWith(".png") || line.endsWith(".jpg")) {
-                                            sb.append(dirName + "_" + line + "\n");
+                                        if (line.equals("- Image Paths -")) {
+                                            sb.append(line + "\n");
+                                            while ((line = br.readLine()) != null) {
+                                                if (line.endsWith(".png") || line.endsWith(".jpg")) {
+                                                    sb.append(dirName + "_" + line + "\n");
+                                                } else {
+                                                    sb.append(line + "\n");
+                                                    break;
+                                                }
+                                            }
+
+                                            if (line == null) {
+                                                break;
+                                            }
                                         } else {
                                             sb.append(line + "\n");
-                                            break;
                                         }
                                     }
 
-                                    if (line == null) {
-                                        break;
-                                    }
-                                } else {
-                                    sb.append(line + "\n");
+                                    FileHandle write = new FileHandle(writeFileHandle + File.separator + readFile.name());
+                                    write.writeString(sb.toString(), false);
+                                    br.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
-
-                            FileHandle write = new FileHandle(writeFileHandle + File.separator + f.name());
-                            write.writeString(sb.toString(), false);
-                            br.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
+                    };
                 }
             }
         };
+        new PackPictureBat(tempPngPath, writeFileHandle.path(), "particle");
     }
 }

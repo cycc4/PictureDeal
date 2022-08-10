@@ -15,8 +15,10 @@ public class ToolManager {
 
     }
 
-    public ParticleComposite getParticleComposite(String readPath, String writePath) {
-        return new ParticleComposite(readPath, writePath);
+    public ParticleComposite dealParticleCombination() {
+        ParticleComposite pc = new ParticleComposite();
+        pc.deal(getReadPath(), getWritePath());
+        return pc;
     }
 
     //将图片中有颜色的区域周围加一圈像素

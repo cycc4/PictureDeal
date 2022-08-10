@@ -25,9 +25,9 @@ public class RecursionReversalDir {
 
     public RecursionReversalDir(FileHandle dirFileHandle, String writePath) {
         if (dirFileHandle != null && dirFileHandle.exists()) {
-            for (FileHandle f : dirFileHandle.list()) {
-                callback(f, writePath);
-            }
+            recursionFunc(dirFileHandle, writePath);
+        } else {
+            System.out.println("ReversalDir dirFile may be empty or nonexistent");
         }
     }
 

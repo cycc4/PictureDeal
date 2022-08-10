@@ -29,7 +29,8 @@ public class MyGdxGame extends ApplicationAdapter {
 //        toolManager.getParticleComposite(readPath, writePath).composite();
 
 //        toolManager.dealPictureRGB();
-        toolManager.dealSpineCombination();
+//        toolManager.dealSpineCombination();
+        toolManager.dealParticleCombination();
     }
 
     public Stage getStage() {

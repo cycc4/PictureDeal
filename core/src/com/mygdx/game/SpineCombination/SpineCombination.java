@@ -15,6 +15,10 @@ import com.mygdx.game.Tools.PictureTool;
 import java.io.File;
 import java.util.HashMap;
 
+/*
+ * 对动画目录进行合图操作
+ */
+
 public class SpineCombination implements DealInterface {
     protected String unPackImageDir;
     protected String unPackImageDirCommonDir;
@@ -31,20 +35,25 @@ public class SpineCombination implements DealInterface {
         unPackImageDirCommonDir = readPath + File.separator + "common";
         FileTool.mkdir(new File(unPackImageDirCommonDir));
 
-        //step1:先对所有动画进行切图操作
+        writePath = writePath + File.separator + readFile.getName();
+        FileTool.mkdir(new File(writePath));
+        //step1: 先对所有动画进行切图操作
         new RecursionReversalDir(readFile, writePath) {
             @Override
             protected void callback(File file, String writePath) {
                 String fileName = file.getName();
                 if (fileName.endsWith(".atlas")) {
+                    System.out.println("find atlas file name:  " + fileName);
                     String dirName = PictureTool.deletePictureNameExtension(fileName);
-                    System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy:  " + dirName);
                     new UnPackPictureBat(
                             file.getAbsolutePath(),
                             file.getParent(),
                             unPackImageDir + File.separator + dirName
                     );
-                    //将atlas文件拷贝到目标目录下
+//                    //将atlas文件拷贝到目标目录下
+//                    FileTool.moveTo(file, new File(writePath + File.separator + fileName));
+                } else if (!fileName.endsWith(".png")) {
+                    //将非 *.png 文件拷贝到目标目录下
                     FileTool.moveTo(file, new File(writePath + File.separator + fileName));
                 }
             }
@@ -112,6 +121,7 @@ public class SpineCombination implements DealInterface {
                         atlasAtlasIDData.offsetX = commonAtlasIDData.offsetX;
                         atlasAtlasIDData.offsetY = commonAtlasIDData.offsetY;
                         atlasAtlasIDData.index = commonAtlasIDData.index;
+                        atlasAtlasIDData.rotate = commonAtlasIDData.rotate;
                     }
 
                     StringBuffer sb = new StringBuffer();
@@ -124,7 +134,7 @@ public class SpineCombination implements DealInterface {
                             sb.append(atlas.getAtlasIDData(s).writeString());
                         }
                     }
-                    new FileHandle(writeFile + File.separator + atlasName+".atlas").writeString(sb.toString(), false);
+                    new FileHandle(writeFile + File.separator + atlasName + ".atlas").writeString(sb.toString(), false);
                 }
             }
         };
