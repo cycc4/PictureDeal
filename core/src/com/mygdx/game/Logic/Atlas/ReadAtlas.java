@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
+import com.mygdx.game.Logic.ToolInterface.WriteStringInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-public class ReadAtlas {
+public class ReadAtlas implements WriteStringInterface {
     private HashMap<String, AtlasTitleData> titleDataHashMap = new HashMap<>();
 
     private HashMap<String, AtlasIDData> pngNameHashMap = new HashMap<String, AtlasIDData>();
@@ -130,21 +131,6 @@ public class ReadAtlas {
         }
     }
 
-    public void write(FileHandle fileHandle) {
-        StringBuffer stringBuffer = new StringBuffer();
-        for (String key : titleDataHashMap.keySet()) {
-            stringBuffer.append("\n" + key + "\n");
-            AtlasTitleData atlasTitleData = titleDataHashMap.get(key);
-            stringBuffer.append(atlasTitleData.writeString());
-            for (String pngName : atlasTitleData.atlasPngNameArray) {
-                stringBuffer.append(pngName + "\n");
-                stringBuffer.append(pngNameHashMap.get(key).writeString());
-            }
-        }
-
-        fileHandle.writeString(stringBuffer.toString(), false);
-    }
-
     public String getValueString(String s, String startWithString) {
         return getValueString(s, startWithString, true);
     }
@@ -157,5 +143,25 @@ public class ReadAtlas {
             return s.substring(startWithString.length());
         }
         return null;
+    }
+
+    @Override
+    public String writeString() {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String key : titleDataHashMap.keySet()) {
+            stringBuffer.append("\n" + key + "\n");
+            AtlasTitleData atlasTitleData = titleDataHashMap.get(key);
+            stringBuffer.append(atlasTitleData.writeString());
+            for (String pngName : atlasTitleData.atlasPngNameArray) {
+                stringBuffer.append(pngName + "\n");
+                stringBuffer.append(pngNameHashMap.get(key).writeString());
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    @Override
+    public void write(FileHandle fileHandle) {
+        fileHandle.writeString(writeString(), false);
     }
 }

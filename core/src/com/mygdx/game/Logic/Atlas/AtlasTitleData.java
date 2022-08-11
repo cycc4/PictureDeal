@@ -1,5 +1,6 @@
 package com.mygdx.game.Logic.Atlas;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
@@ -33,6 +34,11 @@ public class AtlasTitleData implements WriteStringInterface {
                 "format: " + format +"\n"+
                 "filter: " + minFilter + "," + magFilter + "\n" +
                 "repeat: " + repeatX + "\n";
+    }
+
+    @Override
+    public void write(FileHandle fileHandle) {
+
     }
 
     public void copy(AtlasTitleData atlasTitleData, boolean isCopyAtlasPngNameArray) {

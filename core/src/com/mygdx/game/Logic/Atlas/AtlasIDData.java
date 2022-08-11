@@ -1,5 +1,6 @@
 package com.mygdx.game.Logic.Atlas;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.mygdx.game.Logic.ToolInterface.WriteStringInterface;
 
 public class AtlasIDData implements WriteStringInterface {
@@ -32,6 +33,11 @@ public class AtlasIDData implements WriteStringInterface {
                 " orig: " + origX + "," + origY + "\n" +
                 " offset: " + offsetX + "," + offsetY + "\n" +
                 " index: " + index + "\n";
+    }
+
+    @Override
+    public void write(FileHandle fileHandle) {
+
     }
 
 }
