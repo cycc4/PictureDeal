@@ -1,6 +1,7 @@
 package com.mygdx.game.Logic.Factory;
 
 import com.mygdx.game.ConstantValue;
+import com.mygdx.game.Logic.Function.NinePath.DealTextureToNinePath;
 import com.mygdx.game.Logic.Function.Particle.ParticleCombination.ParticleComposite;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Logic.Function.Picture.DealPictureRGB3;
@@ -30,6 +31,19 @@ public class ToolManager {
     public void dealSpineCombination() {
         SpineCombination spineCombination = new SpineCombination();
         spineCombination.deal(getReadPath(), getWritePath());
+    }
+
+    public void dealNinePacture(int left, int right, int top, int bottom) {
+        DealTextureToNinePath.a = left;
+        DealTextureToNinePath.b = right;
+        DealTextureToNinePath.c = top;
+        DealTextureToNinePath.d = bottom;
+        DealTextureToNinePath dealTextureToNinePath = new DealTextureToNinePath();
+        dealTextureToNinePath.deal(getReadPath(), getWritePath());
+    }
+
+    public void dealLabel() {
+
     }
 
     public String getReadPath() {
