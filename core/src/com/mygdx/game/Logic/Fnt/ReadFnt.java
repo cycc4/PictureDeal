@@ -7,9 +7,6 @@ package com.mygdx.game.Logic.Fnt;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
-import com.mygdx.game.Logic.Fnt.FntIDData;
-import com.mygdx.game.Logic.Fnt.FntKerningsData;
-import com.mygdx.game.Logic.Fnt.FntTitleData;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
