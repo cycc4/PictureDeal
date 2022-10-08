@@ -8,20 +8,20 @@ import com.mygdx.game.Logic.ToolInterface.WriteStringInterface;
 
 import java.util.HashMap;
 
-class ReadFntByBitmapFontData implements WriteStringInterface {
+class ReadFntByBitmapFontData {
     protected Array<String> fontNameArray = new Array<>();
-    protected HashMap<String, BitmapFont.BitmapFontData> bitmapFontDataHashMap = new HashMap<>();
+    protected HashMap<String, MyBitmapFontData> bitmapFontDataHashMap = new HashMap<>();
     protected FileHandle readFile;
 
     public void load(String readPath, String writePath) {
         readFile = new FileHandle(readPath);
 
-        new RecursionReversalDir(readFile, writePath){
+        new RecursionReversalDir(readFile, writePath) {
             @Override
             protected void callback(FileHandle readFile, String writeFile) {
                 String fileName = readFile.name();
-                if(fileName.endsWith(".fnt") && !fontNameArray.contains(fileName, true)){
-                    BitmapFont.BitmapFontData bfbfd = new BitmapFont.BitmapFontData(readFile, false);
+                if (fileName.endsWith(".fnt") && !fontNameArray.contains(fileName, true)) {
+                    MyBitmapFontData bfbfd = new MyBitmapFontData(readFile, false);
                     bitmapFontDataHashMap.put(fileName, bfbfd);
                     fontNameArray.add(fileName);
                 }
@@ -33,21 +33,5 @@ class ReadFntByBitmapFontData implements WriteStringInterface {
         return fontNameArray;
     }
 
-    public float getLineHeight(String fontName){
-        return bitmapFontDataHashMap.get(fontName).lineHeight;
-    }
 
-
-
-    @Override
-    public String writeString() {
-        StringBuffer sb = new StringBuffer();
-
-        return null;
-    }
-
-    @Override
-    public void write(FileHandle fileHandle) {
-
-    }
 }

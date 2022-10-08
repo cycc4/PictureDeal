@@ -67,7 +67,6 @@ public class SpineCombination implements DealInterface {
         //step2:对拆图的图片进行重命名并将图片拷贝到unPackImageDirCommonDir目录下,
         // 否则可能会有相同的图片名
         File unPackImageDirFile = new File(unPackImageDir);
-
         new ReversalDir(unPackImageDirFile, null) {
             @Override
             protected void callback(File readFile, String writePath) {

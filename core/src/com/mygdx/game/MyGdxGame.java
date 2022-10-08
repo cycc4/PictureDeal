@@ -20,8 +20,8 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
         toolManager = new ToolManager(this);
 
-//        toolManager.dealPictureRGB();
-        toolManager.dealSpineCombination();
+        toolManager.dealPictureRGB();
+//        toolManager.dealSpineCombination();
 //        toolManager.dealParticleCombination();
     }
 

@@ -46,7 +46,6 @@ public class DealPictureRGB implements DealInterface {
                         g += c1.g;
                         b += c1.b;
                         num += 1;
-                        System.out.println("11111111111111111111111111111111111111111111111111111111111:  " + c1.r + "   " + c1.g + "   " + c1.b);
                     }
                     //right
                     Color c2 = getPixelColor(px, x + 1, y);
@@ -55,7 +54,6 @@ public class DealPictureRGB implements DealInterface {
                         g += c2.g;
                         b += c2.b;
                         num += 1;
-                        System.out.println("22222222222222222222222222222222222222222222222222222222222: " + c2.r + "   " + c2.g + "   " + c2.b);
                     }
                     //top
                     Color c3 = getPixelColor(px, x, y + 1);
@@ -64,7 +62,6 @@ public class DealPictureRGB implements DealInterface {
                         g += c3.g;
                         b += c3.b;
                         num += 1;
-                        System.out.println("33333333333333333333333333333333333333333333333333333333333: " + c3.r + "   " + c3.g + "   " + c3.b);
                     }
                     //bottom
                     Color c4 = getPixelColor(px, x, y - 1);
@@ -73,18 +70,15 @@ public class DealPictureRGB implements DealInterface {
                         g += c4.g;
                         b += c4.b;
                         num += 1;
-                        System.out.println("44444444444444444444444444444444444444444444444444444444444: " + c4.r + "   " + c4.g + "   " + c4.b);
                     }
 
                     if (num > 0) {
-                        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz: " + x + "   " + y + "   " + r + "   " + g + "   " + b + "   " + num);
                         c.r = r / num;
                         c.r = MathUtils.clamp(c.r, 0, 1);
                         c.g = g / num;
                         c.g = MathUtils.clamp(c.g, 0, 1);
                         c.b = b / num;
                         c.b = MathUtils.clamp(c.b, 0, 1);
-                        System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy:  " + c.r + "   " + c.g + "   " + c.b);
                     } else {
                         c.r = 1;
                         c.g = 1;

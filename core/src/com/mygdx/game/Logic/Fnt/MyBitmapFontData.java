@@ -1,9 +1,16 @@
 package com.mygdx.game.Logic.Fnt;
+/**
+ * 添加bitmapfontdata中没存储的变量
+ */
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StreamUtils;
+import com.mygdx.game.Logic.ToolInterface.WriteStringInterface;
+import com.mygdx.game.Logic.Tools.StringTool;
+import com.mygdx.game.Struct.IntegerVector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,7 +18,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MyBitmapFontData extends BitmapFont.BitmapFontData {
+public class MyBitmapFontData extends BitmapFont.BitmapFontData implements WriteStringInterface {
     protected String face;
     protected int size;
     protected int bold;
@@ -23,6 +30,22 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
     protected int aa;
     protected int spacingX;
     protected int spacingY;
+    protected int scaleW;
+    protected int scaleH;
+    protected int baseLine = 1;
+    protected int pageCount = 1;
+    protected int packed;
+    protected int kerningCount;
+    protected Array<Character> charArrays = new Array<>();
+
+    public MyBitmapFontData() {
+    }
+
+    public MyBitmapFontData(FileHandle fontFile, boolean flip) {
+        this.fontFile = fontFile;
+        this.flipped = flip;
+        load(fontFile, flip);
+    }
 
     @Override
     public void load(FileHandle fontFile, boolean flip) {
@@ -75,15 +98,35 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
                 if (!common[9].startsWith("aa")) {
                     throw new GdxRuntimeException("file error: no found aa");
                 }
-                italic = Integer.parseInt(common[9].substring(3));
+                aa = Integer.parseInt(common[9].substring(3));
+
+                if (!common[10].startsWith("padding")) {
+                    throw new GdxRuntimeException("file error: no found padding");
+                }
+                String[] padding = common[10].substring(8).split(",", 4);
+                if (padding.length != 4) throw new GdxRuntimeException("Invalid padding.");
+                padTop = Integer.parseInt(padding[0]);
+                padRight = Integer.parseInt(padding[1]);
+                padBottom = Integer.parseInt(padding[2]);
+                padLeft = Integer.parseInt(padding[3]);
+
+                if (!common[11].startsWith("spacing")) {
+                    throw new GdxRuntimeException("file error: no found spacing");
+                }
+                String[] spacing = common[11].substring(8).split(",", 2);
+                if (spacing.length != 2) throw new GdxRuntimeException("Invalid spacing.");
+                spacingX = Integer.parseInt(spacing[0]);
+                spacingY = Integer.parseInt(spacing[1]);
             }
-            line = line.substring(line.indexOf("padding=") + 8);
-            String[] padding = line.substring(0, line.indexOf(' ')).split(",", 4);
-            if (padding.length != 4) throw new GdxRuntimeException("Invalid padding.");
-            padTop = Integer.parseInt(padding[0]);
-            padRight = Integer.parseInt(padding[1]);
-            padBottom = Integer.parseInt(padding[2]);
-            padLeft = Integer.parseInt(padding[3]);
+            {
+//            line = line.substring(line.indexOf("padding=") + 8);
+//            String[] padding = line.substring(0, line.indexOf(' ')).split(",", 4);
+//            if (padding.length != 4) throw new GdxRuntimeException("Invalid padding.");
+//            padTop = Integer.parseInt(padding[0]);
+//            padRight = Integer.parseInt(padding[1]);
+//            padBottom = Integer.parseInt(padding[2]);
+//            padLeft = Integer.parseInt(padding[3]);
+            }
             float padY = padTop + padBottom;
 
             line = reader.readLine();
@@ -98,14 +141,33 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
             lineHeight = Integer.parseInt(common[1].substring(11));
 
             if (!common[2].startsWith("base=")) throw new GdxRuntimeException("Missing: base");
-            float baseLine = Integer.parseInt(common[2].substring(5));
+            baseLine = Integer.parseInt(common[2].substring(5));
 
-            int pageCount = 1;
+            {
+                if (!common[3].startsWith("scaleW")) {
+                    throw new GdxRuntimeException("Missing: scaleW");
+                }
+                scaleW = Integer.parseInt(common[3].substring(7));
+
+                if (!common[4].startsWith("scaleH")) {
+                    throw new GdxRuntimeException("Missing: scaleH");
+                }
+                scaleH = Integer.parseInt(common[4].substring(7));
+            }
+
+
             if (common.length >= 6 && common[5] != null && common[5].startsWith("pages=")) {
                 try {
                     pageCount = Math.max(1, Integer.parseInt(common[5].substring(6)));
                 } catch (NumberFormatException ignored) { // Use one page.
                 }
+            }
+
+            {
+                if (!common[6].endsWith("packed")) {
+                    throw new GdxRuntimeException("Missing: packed");
+                }
+                packed = Integer.parseInt(common[6].substring(7));
             }
 
             imagePaths = new String[pageCount];
@@ -136,6 +198,7 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
 
                 imagePaths[p] = fontFile.parent().child(fileName).path().replaceAll("\\\\", "/");
             }
+
             descent = 0;
 
             while (true) {
@@ -149,12 +212,14 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
                 StringTokenizer tokens = new StringTokenizer(line, " =");
                 tokens.nextToken();
                 tokens.nextToken();
+
                 int ch = Integer.parseInt(tokens.nextToken());
                 if (ch <= 0)
                     missingGlyph = glyph;
-                else if (ch <= Character.MAX_VALUE)
+                else if (ch <= Character.MAX_VALUE) {
                     setGlyph(ch, glyph);
-                else
+                    charArrays.add((char) ch);
+                } else
                     continue;
                 glyph.id = ch;
                 tokens.nextToken();
@@ -186,6 +251,7 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
 
                 if (glyph.width > 0 && glyph.height > 0)
                     descent = Math.min(baseLine + glyph.yoffset, descent);
+
             }
             descent += padBottom;
 
@@ -207,7 +273,9 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
                 int amount = Integer.parseInt(tokens.nextToken());
                 if (glyph != null) { // Kernings may exist for glyph pairs not contained in the font.
                     glyph.setKerning(second, amount);
+
                 }
+                kerningCount++;
             }
 
             BitmapFont.Glyph spaceGlyph = getGlyph(' ');
@@ -261,5 +329,166 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
         } finally {
             StreamUtils.closeQuietly(reader);
         }
+    }
+
+    public void setLineHeight(float lineHeight) {
+        this.lineHeight = lineHeight;
+    }
+
+    public float getLineHeight() {
+        return lineHeight;
+    }
+
+    public void setCharSize(BitmapFont.Glyph chGlyph, int width, int height) {
+        if (chGlyph != null) {
+            chGlyph.width = width;
+            chGlyph.height = height;
+        }
+    }
+
+    public IntegerVector getCharSize(BitmapFont.Glyph chGlyph) {
+        if (chGlyph != null) {
+            return new IntegerVector(chGlyph.width, chGlyph.height);
+        }
+        return null;
+    }
+
+    public void setCharPosition(BitmapFont.Glyph chGlyph, int x, int y) {
+        if (chGlyph != null) {
+            chGlyph.srcX = x;
+            chGlyph.srcY = y;
+        }
+    }
+
+    public IntegerVector getCharPosition(BitmapFont.Glyph chGlyph) {
+        if (chGlyph != null) {
+            return new IntegerVector(chGlyph.srcX, chGlyph.srcY);
+        }
+        return null;
+    }
+
+    public void setCharOffset(BitmapFont.Glyph chGlyph, int offsetX, int offsetY) {
+        if (chGlyph != null) {
+            chGlyph.xoffset = offsetX;
+            chGlyph.yoffset = offsetY;
+        }
+    }
+
+
+    public BitmapFont.Glyph getGlyph(char ch) {
+        return getGlyph(ch);
+    }
+
+    @Override
+    public String writeString() {
+        StringBuffer stringBuffer = new StringBuffer();
+        //title:
+        //line 1:
+        stringBuffer.append("info face=\"");
+        stringBuffer.append(face);
+        stringBuffer.append("\" size=");
+        stringBuffer.append(size);
+        stringBuffer.append(" bold=");
+        stringBuffer.append(bold);
+        stringBuffer.append(" italic=");
+        stringBuffer.append(italic);
+        stringBuffer.append(" charset=\"");
+        stringBuffer.append(charset);
+        stringBuffer.append("\" unicode=");
+        stringBuffer.append(unicode);
+        stringBuffer.append(" stretchH=");
+        stringBuffer.append(stretchH);
+        stringBuffer.append(" smooth=");
+        stringBuffer.append(smooth);
+        stringBuffer.append(" aa=");
+        stringBuffer.append(aa);
+        stringBuffer.append(" padding=");
+        stringBuffer.append(padTop + "," + padRight + "," + padBottom + "," + padLeft);
+        stringBuffer.append("\n");
+        //line2:
+        stringBuffer.append("common lineHeight=");
+        stringBuffer.append(lineHeight);
+        stringBuffer.append(" base=");
+        stringBuffer.append(baseLine);
+        stringBuffer.append(" scaleW=");
+        stringBuffer.append(scaleW);
+        stringBuffer.append(" scaleH=");
+        stringBuffer.append(scaleH);
+        stringBuffer.append(" pages=");
+        stringBuffer.append(pageCount);
+        stringBuffer.append(" packed=");
+        stringBuffer.append(packed);
+        stringBuffer.append("\n");
+        //line 3:
+        for (int i = 0; i < imagePaths.length; ++i) {
+            stringBuffer.append("page id=");
+            stringBuffer.append(i);
+            stringBuffer.append(" file=\"");
+            stringBuffer.append(imagePaths[i] + "\"\n");
+        }
+        //line 4:
+        stringBuffer.append("chars count=");
+        stringBuffer.append(charArrays.size);
+        stringBuffer.append("\n");
+
+        //char:
+        //line 5:
+        for (int i = 0, j = 0; i < glyphs.length; ++i) {
+            if (glyphs != null) continue;
+            char c = (char) i;
+            System.out.println("char is: " + c);
+            BitmapFont.Glyph glyph = getGlyph(c);
+            if (glyph != null) continue;
+            j++;
+
+            stringBuffer.append("char id=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.id + "", 8, false));
+            stringBuffer.append("x=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.srcX + "", 5, false));
+            stringBuffer.append("y=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.srcY + "", 5, false));
+            stringBuffer.append("width=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.width + "", 5, false));
+            stringBuffer.append("height=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.height + "", 5, false));
+            stringBuffer.append("xoffset=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.xoffset + "", 5, false));
+            stringBuffer.append("yoffset=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.yoffset + "", 5, false));
+            stringBuffer.append("xadvance=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.xadvance + "", 5, false));
+            stringBuffer.append("page=");
+            stringBuffer.append(StringTool.getAssignmentLengthString(glyph.page + "", 5, false));
+            stringBuffer.append("chnl=0\n");
+        }
+        //kernings:
+        //line 6:
+        stringBuffer.append("kernings count=");
+        stringBuffer.append(kerningCount);
+        stringBuffer.append("\n");
+        //line 7:
+        for (int i = 0; i < charArrays.size; ++i) {
+            BitmapFont.Glyph glyph = getGlyph(charArrays.get(i));
+            for (int j = 0; j < charArrays.size; ++j) {
+                if (j == i) continue;
+                int value = glyph.getKerning((char) j);
+                if (value != 0) {
+                    stringBuffer.append("kerning first=");
+                    stringBuffer.append((int) charArrays.get(i));
+                    stringBuffer.append(" secound=");
+                    stringBuffer.append((int) charArrays.get(j));
+                    stringBuffer.append(" amount=");
+                    stringBuffer.append(value);
+                    stringBuffer.append("\n");
+                }
+            }
+        }
+
+        return stringBuffer.toString();
+    }
+
+    @Override
+    public void write(FileHandle fileHandle) {
+
     }
 }
