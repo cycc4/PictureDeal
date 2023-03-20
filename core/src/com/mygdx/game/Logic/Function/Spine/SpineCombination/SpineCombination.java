@@ -5,10 +5,10 @@ import com.mygdx.game.Logic.CallBack.RecursionReversalDir;
 import com.mygdx.game.Logic.CallBack.ReversalDir;
 import com.mygdx.game.Logic.CombinationPicture.PackPictureBat;
 import com.mygdx.game.Logic.CombinationPicture.UnPackPictureBat;
-import com.mygdx.game.Logic.Atlas.ReadAtlas;
+import com.mygdx.game.Logic.Picture.Atlas.ReadAtlas;
 import com.mygdx.game.Logic.ToolInterface.DealInterface;
-import com.mygdx.game.Logic.Atlas.AtlasIDData;
-import com.mygdx.game.Logic.Atlas.AtlasTitleData;
+import com.mygdx.game.Logic.Picture.Atlas.AtlasIDData;
+import com.mygdx.game.Logic.Picture.Atlas.AtlasTitleData;
 import com.mygdx.game.Logic.Tools.FileTool;
 import com.mygdx.game.Logic.Tools.PictureTool;
 

@@ -1,0 +1,59 @@
+<Solution>
+  <PropertyGroup Name="PictureDeal" Version="3.10.0.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Folder Name="Assets">
+          <Folder Name="Button">
+            <Project Name="FiveButton.csd" Type="Layer" />
+            <Project Name="TwoButton.csd" Type="Layer" />
+            <Project Name="TextButton.csd" Type="Layer" />
+            <Project Name="TextField.csd" Type="Layer" />
+          </Folder>
+          <Folder Name="Fnt">
+            <Fnt Name="chinese.fnt" />
+            <Fnt Name="defaultBMFont.fnt" />
+            <Fnt Name="Neuron-Regular_36.fnt" />
+            <TTF Name="CEVICHEONE-REGULAR(1).TTF" />
+          </Folder>
+          <Folder Name="Layer">
+            <Project Name="AdjustTable.csd" Type="Layer" />
+            <Project Name="adjustList.csd" Type="Layer" />
+          </Folder>
+          <Folder Name="Nine">
+            <Project Name="NineLayer.csd" Type="Layer" />
+            <Project Name="NineRightLayer.csd" Type="Layer" />
+          </Folder>
+          <Folder Name="Picture">
+            <Image Name="append.png" />
+            <Image Name="Button_Disable.png" />
+            <Image Name="Button_Normal.png" />
+            <Image Name="Button_Press.png" />
+            <Image Name="CheckBox_Disable.png" />
+            <Image Name="CheckBox_Normal.png" />
+            <Image Name="CheckBox_Press.png" />
+            <Image Name="CheckBoxNode_Disable.png" />
+            <Image Name="cursor.png" />
+            <Image Name="ImageFile.png" />
+            <Image Name="pot.png" />
+            <Image Name="skybox.png" />
+            <Image Name="Slice3D.png" />
+            <Image Name="slider.png" />
+            <Image Name="Slider_Back.png" />
+            <Image Name="Slider_PressBar.png" />
+            <Image Name="SliderNode_Disable.png" />
+            <Image Name="SliderNode_Normal.png" />
+            <Image Name="SliderNode_Press.png" />
+            <Image Name="Sprite.png" />
+            <Image Name="alpha.png" />
+            <Image Name="CheckBoxNode_Normal.png" />
+            <Image Name="Sprite3D.png" />
+            <Image Name="white.png" />
+          </Folder>
+          <Project Name="sidebarLayer.csd" Type="Layer" />
+        </Folder>
+        <Fnt Name="cevicheOne_60_3.fnt" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>

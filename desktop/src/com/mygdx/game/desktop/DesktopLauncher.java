@@ -6,10 +6,12 @@ import com.mygdx.game.MyGdxGame;
 
 public class DesktopLauncher {
     public static void main(String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280;
-		config.height = 1280;
-		new LwjglApplication(new MyGdxGame(arg), config);
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = 1920;
+        config.height = 1137;
+//        config.fullscreen = true;
+
+        new LwjglApplication(new MyGdxGame(arg), config);
 
 //        if (arg.length > 0) {
 //            if(arg.length > 1) {

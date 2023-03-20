@@ -1,58 +1,57 @@
 package com.mygdx.game.Draw.Actor;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 public class SliderActor extends TextureRegionActor {
-    float MaximumDistance;
+    float Percentage;
     boolean isHorize;
 
-    public SliderActor(TextureRegion textureRegion, boolean isHorize) {
+    public SliderActor(TextureRegion textureRegion, final boolean isHorize) {
         super(textureRegion);
         this.isHorize = isHorize;
         setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-        addListener(new ActorGestureListener(){
+        addListener(new ActorGestureListener() {
+            float startX, startY;
+
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
+                startX = x;
+                startY = y;
             }
 
             @Override
             public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                super.pan(event, x, y, deltaX, deltaY);
+                if (isHorize) {
+                    Percentage = (x - startX) / getWidth();
+                } else {
+                    Percentage = (y - startY) / getHeight();
+                }
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchUp(event, x, y, pointer, button);
+                startX = 0;
+                startY = 0;
             }
         });
     }
 
-    @Override
-    public void setSize(float width, float height) {
-        super.setSize(width, height);
+    public void setPercentage(float percentage) {
+        Percentage = percentage;
+    }
+
+    public float getPercentage() {
+        return Percentage;
+    }
+
+    public void setPercentagePosition(float position) {
         if (isHorize) {
-            MaximumDistance = width;
+            setPercentage(MathUtils.clamp(position, 0, getHeight()) / getWidth());
         } else {
-            MaximumDistance = height;
-        }
-    }
-
-    @Override
-    public void setWidth(float width) {
-        super.setWidth(width);
-        if (isHorize) {
-            MaximumDistance = width;
-        }
-    }
-
-    @Override
-    public void setHeight(float height) {
-        super.setHeight(height);
-        if (!isHorize) {
-            MaximumDistance = height;
+            setPercentage(MathUtils.clamp(position, 0, getHeight()) / getHeight());
         }
     }
 }

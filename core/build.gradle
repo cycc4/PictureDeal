@@ -6,9 +6,10 @@ dependencies {
     implementation files('libs\\gdx-tools-1.9.9.jar')
     implementation files('libs\\fastjson-1.2.80.jar')
     implementation files('libs\\fastjson-1.2.80.jar')
+    implementation files('libs\\spine-libgdx-3895\\spine-libgdx-3895.jar')
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = [ "src/","srclib" ]
 
 eclipse.project.name = appName + "-core"
