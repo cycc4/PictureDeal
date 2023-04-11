@@ -1,15 +1,24 @@
-package com.mygdx.game.Logic.Function.Label.FntAdjust;
+package com.mygdx.game.Logic.Function.Label;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Array;
 
 /**
+ * 2   |2 width|
+ * -2 xadvance-
+ * 23  |2 offset|   ||3 offset|3 width|  getPrefer = (2 xadvance) + (3 offset) + (3 width) - (2 offset);
+ * -2 xadvance-  -3 xadvance-
+ * 234 |2 offset|   ||3 offset|   ||4 offset|4 width| getPrefer = (2 xadvance) + (3 xadvance) + (4 offset) + (4 width) - (2 offset);
+ * <p>
  * 新增lineHeightdebug, 默认是红色
  */
 
 public class DebugLabel extends Label {
     public boolean debugLineHeight = true;
+    public boolean debugChar = true;
+
     public Color debugLineHeightColor = Color.RED;
     public final Color debugCharColor = new Color(0, 0, 1, 0.2f);
     public String adjustString;
@@ -22,6 +31,14 @@ public class DebugLabel extends Label {
     public void setText(CharSequence newText) {
         super.setText(newText);
         adjustString = newText.toString();
+    }
+
+    public void updata() {
+        if (getText().length > 0) {
+            invalidate();
+//            setSize(getPrefWidth(), getPrefHeight());
+        }
+        layout();
     }
 
     public void debugLineHeight(ShapeRenderer shapes) {
@@ -41,9 +58,9 @@ public class DebugLabel extends Label {
         for (int i = 0; i < getText().length; ++i) {
             int id = getText().charAt(i);
             if (((DebugBitmapFont) (getStyle().font)).verticesMap != null) {
-                float[] vertices = ((DebugBitmapFont) (getStyle().font)).verticesMap.get(id);
+                Array<float[]> vertices = ((DebugBitmapFont) (getStyle().font)).verticesMap.get(id);
                 if (vertices != null) {
-                    shapes.rect(vertices[0] + getBitmapFontCache().getX(), vertices[1] + getBitmapFontCache().getY(), vertices[2], vertices[3]);
+                    shapes.rect(vertices.get(0)[0] + getBitmapFontCache().getX(), vertices.get(0)[1] + getBitmapFontCache().getY(), vertices.get(0)[2], vertices.get(0)[3]);
                 }
             }
         }

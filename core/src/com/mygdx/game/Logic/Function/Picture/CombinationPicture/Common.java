@@ -1,4 +1,4 @@
-package com.mygdx.game.Logic.CombinationPicture;
+package com.mygdx.game.Logic.Function.Picture.CombinationPicture;
 
 import com.alibaba.fastjson.JSON;
 import com.badlogic.gdx.files.FileHandle;

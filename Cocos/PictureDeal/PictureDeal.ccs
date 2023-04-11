@@ -6,25 +6,33 @@
         <Folder Name="Assets">
           <Folder Name="Button">
             <Project Name="FiveButton.csd" Type="Layer" />
-            <Project Name="TwoButton.csd" Type="Layer" />
             <Project Name="TextButton.csd" Type="Layer" />
             <Project Name="TextField.csd" Type="Layer" />
+            <Project Name="TwoButton.csd" Type="Layer" />
+            <Project Name="AddAndSubButton.csd" Type="Layer" />
+            <Project Name="ShowData.csd" Type="Layer" />
           </Folder>
           <Folder Name="Fnt">
+            <TTF Name="CEVICHEONE-REGULAR(1).TTF" />
             <Fnt Name="chinese.fnt" />
             <Fnt Name="defaultBMFont.fnt" />
             <Fnt Name="Neuron-Regular_36.fnt" />
-            <TTF Name="CEVICHEONE-REGULAR(1).TTF" />
           </Folder>
           <Folder Name="Layer">
-            <Project Name="AdjustTable.csd" Type="Layer" />
-            <Project Name="adjustList.csd" Type="Layer" />
+            <Folder Name="Fnt">
+              <Project Name="adjustList.csd" Type="Layer" />
+              <Project Name="adjustTable.csd" Type="Layer" />
+              <Project Name="charData.csd" Type="Layer" />
+              <Project Name="adjust.csd" Type="Layer" />
+              <Project Name="fntData.csd" Type="Layer" />
+            </Folder>
           </Folder>
           <Folder Name="Nine">
             <Project Name="NineLayer.csd" Type="Layer" />
             <Project Name="NineRightLayer.csd" Type="Layer" />
           </Folder>
           <Folder Name="Picture">
+            <Image Name="alpha.png" />
             <Image Name="append.png" />
             <Image Name="Button_Disable.png" />
             <Image Name="Button_Normal.png" />
@@ -33,6 +41,7 @@
             <Image Name="CheckBox_Normal.png" />
             <Image Name="CheckBox_Press.png" />
             <Image Name="CheckBoxNode_Disable.png" />
+            <Image Name="CheckBoxNode_Normal.png" />
             <Image Name="cursor.png" />
             <Image Name="ImageFile.png" />
             <Image Name="pot.png" />
@@ -45,14 +54,14 @@
             <Image Name="SliderNode_Normal.png" />
             <Image Name="SliderNode_Press.png" />
             <Image Name="Sprite.png" />
-            <Image Name="alpha.png" />
-            <Image Name="CheckBoxNode_Normal.png" />
             <Image Name="Sprite3D.png" />
             <Image Name="white.png" />
           </Folder>
           <Project Name="sidebarLayer.csd" Type="Layer" />
         </Folder>
+        <Fnt Name="bonus-export.fnt" />
         <Fnt Name="cevicheOne_60_3.fnt" />
+        <Fnt Name="PR-Columban_96-ZSH.fnt" />
       </RootFolder>
     </Group>
   </SolutionFolder>

@@ -1,4 +1,4 @@
-//package com.mygdx.game.Logic.CombinationPicture;
+package com.mygdx.game.Logic.Function.Picture.CombinationPicture;//package com.mygdx.game.Logic.Function.Picture.CombinationPicture;
 //
 //import com.badlogic.gdx.graphics.Pixmap;
 //import com.badlogic.gdx.graphics.Texture;

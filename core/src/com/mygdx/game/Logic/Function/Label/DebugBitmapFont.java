@@ -1,4 +1,4 @@
-package com.mygdx.game.Logic.Function.Label.FntAdjust;
+package com.mygdx.game.Logic.Function.Label;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * 新增修改region的uv坐标函数
  */
 public class DebugBitmapFont extends BitmapFont {
-    public HashMap<Integer, float[]> verticesMap = new HashMap<>();
+    public HashMap<Integer, Array<float[]>> verticesMap = new HashMap<>();
 
     public DebugBitmapFont(BitmapFontData data, TextureRegion region, boolean integer) {
         super(data, region != null ? Array.with(region) : null, integer);
@@ -35,8 +35,11 @@ public class DebugBitmapFont extends BitmapFont {
                     FloatArray xAdvances = run.xAdvances;
                     float gx = x + run.x, gy = y + run.y;
 
+                    System.out.println("debugBitmapFont:  " + run.x);
+
                     for (int ii = 0, nn = glyphs.size; ii < nn; ii++) {
                         Glyph glyph = glyphs.get(ii);
+                        System.out.println("addVerticesMap:  " + glyph.id + "   " + xAdvances.get(ii));
                         gx += xAdvances.get(ii);
                         initVerticesMap(glyph, gx, gy);
                     }
@@ -58,7 +61,11 @@ public class DebugBitmapFont extends BitmapFont {
                 }
 
 //                float x2 = x + width, y2 = y + height;
-                verticesMap.put(glyph.id, new float[]{
+                Array<float[]> arrays = verticesMap.get(glyph.id);
+                if (arrays == null) {
+                    arrays = new Array<>(1);
+                }
+                arrays.add(new float[]{
                         x, y, width, height
                 });
                 //      0  1  2   3   4

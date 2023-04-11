@@ -244,10 +244,8 @@ public class ManagerUIEditor extends BaseCocoStudioUIEditor implements Disposabl
     public BitmapFont findBitmapFont(FileData fileData) {
         if (fileData == null)
             return Assets.getIns().deffont();
-        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzz:  " + fileData.Path);
         BitmapFont font;
         String bmPath = getRealPath(fileData.Path);
-        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwww:  " + bmPath);
 //        if (fileData.Path != null && fileData.Path.startsWith(dirName))
 //            bmPath = fileData.Path;
         if (!assetManager.isLoaded(bmPath)) {

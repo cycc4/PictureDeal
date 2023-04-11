@@ -1,7 +1,6 @@
 package com.mygdx.game.Logic;
 
 import com.mygdx.game.Constants;
-import com.mygdx.game.Logic.Picture.NinePath.DealTextureToNinePath;
 import com.mygdx.game.Logic.Function.Particle.ParticleCombination.ParticleComposite;
 import com.mygdx.game.Logic.Function.Picture.ProcessPicturePixels.ModifyBlankPixels.DealPictureRGB4;
 import com.mygdx.game.MyGdxGame;
@@ -39,12 +38,12 @@ public class ToolsFactory {
     }
 
     public void dealNinePacture(int left, int right, int top, int bottom) {
-        DealTextureToNinePath.a = left;
-        DealTextureToNinePath.b = right;
-        DealTextureToNinePath.c = top;
-        DealTextureToNinePath.d = bottom;
-        DealTextureToNinePath dealTextureToNinePath = new DealTextureToNinePath();
-        dealTextureToNinePath.deal(getReadPath(), getWritePath());
+//        DealTextureToNinePath.a = left;
+//        DealTextureToNinePath.b = right;
+//        DealTextureToNinePath.c = top;
+//        DealTextureToNinePath.d = bottom;
+//        DealTextureToNinePath dealTextureToNinePath = new DealTextureToNinePath();
+//        dealTextureToNinePath.deal(getReadPath(), getWritePath());
     }
 
     //调整字体

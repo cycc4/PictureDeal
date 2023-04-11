@@ -1,4 +1,4 @@
-package com.mygdx.game.Logic.Picture.NinePath;
+package com.mygdx.game.Logic.Function.Picture.GeneratorNinePath;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;

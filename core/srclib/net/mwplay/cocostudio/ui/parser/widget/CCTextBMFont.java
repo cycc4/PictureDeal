@@ -52,8 +52,8 @@ public class CCTextBMFont extends WidgetParser<TextBMFontObjectData> {
         //不使用Int坐标
         font.setUseIntegerPositions(false);
         //使高度与Cocos坐标相一致
-        font.getData().ascent = 0;
-        font.getData().capHeight = font.getData().lineHeight;
+//        font.getData().ascent = 0;
+//        font.getData().capHeight = font.getData().lineHeight;
 
         Color textColor = Color.WHITE;
         Label.LabelStyle style = new Label.LabelStyle(font, textColor);

@@ -3,17 +3,13 @@ package com.mygdx.game.Logic.Function.Label.FntAdjust;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.Logic.Function.Label.MyBitmapFontData;
+import com.mygdx.game.Logic.Function.Label.DebugBitmapFont;
+import com.mygdx.game.Logic.Function.Label.DebugBitmapFontData;
 import com.mygdx.game.Logic.ToolInterface.ReadWriteInterface;
 
 public class AdjustLabel implements ReadWriteInterface {
-    private MyBitmapFontData data;
-    private DebugBitmapFont bitmapFont;
-
-    private void initBitmapFontArray(FileHandle fntFileHandle) {
-        data = new MyBitmapFontData(fntFileHandle, false);
-        bitmapFont = new DebugBitmapFont(data, (TextureRegion) null, true);
-    }
+    protected DebugBitmapFontData data;
+    protected DebugBitmapFont bitmapFont;
 
     public void setLineHeight(BitmapFont bitmapFont, float lineHeight) {
         bitmapFont.getData().lineHeight += lineHeight;
@@ -27,7 +23,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterHeight(BitmapFont bitmapFont, char c, int height) {
         setCharacterSize(bitmapFont, c, 0, height);
         if (height > 0) {
-            ((MyBitmapFontData) bitmapFont.getData()).adjustVariationValue();
+            ((DebugBitmapFontData) bitmapFont.getData()).adjustVariationValue();
         }
     }
 
@@ -49,7 +45,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterStringSize(String s, int offsetX, int offsetY) {
         new AdjustStringRunable(s, offsetX, offsetY) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.width += offsetX;
                 glyph.height += offsetY;
                 bitmapFont.loadFontRegionChar(glyph);
@@ -74,7 +70,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterSizeAll(int widthOffset, int heightOffset) {
         new AdjustAllRunable(data, widthOffset, heightOffset) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.width += offsetX;
                 glyph.height += offsetY;
                 bitmapFont.loadFontRegionChar(glyph);
@@ -114,7 +110,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterStringPosition(String s, int offsetX, int offsetY) {
         new AdjustStringRunable(s, offsetX, offsetY) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.srcX += offsetX;
                 glyph.srcY += offsetY;
                 bitmapFont.loadFontRegionChar(glyph);
@@ -134,7 +130,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterPositionAll(int offsetX, int offsetY) {
         new AdjustAllRunable(data, offsetX, offsetY) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.srcX += offsetX;
                 glyph.srcY += offsetY;
                 bitmapFont.loadFontRegionChar(glyph);
@@ -154,7 +150,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterStringOffset(String s, int offsetX, int offsetY) {
         new AdjustStringRunable(s, offsetX, offsetY) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.xoffset += offsetX;
                 glyph.yoffset += offsetY;
             }
@@ -176,7 +172,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setCharacterOffsetAll(int offsetX, int offsetY) {
         new AdjustAllRunable(data, offsetX, offsetY) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.xoffset += offsetX;
                 glyph.yoffset += offsetY;
             }
@@ -202,7 +198,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setStringXAdvance(String s, int offset) {
         new AdjustStringRunable(s, offset, 0) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.xadvance += offsetX;
             }
         };
@@ -211,7 +207,7 @@ public class AdjustLabel implements ReadWriteInterface {
     public void setXAdvanceAll(int advanceWidthOffset) {
         new AdjustAllRunable(data, advanceWidthOffset, 0) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 glyph.xadvance += offsetX;
             }
         };
@@ -228,14 +224,14 @@ public class AdjustLabel implements ReadWriteInterface {
 
     public void updataDescent(BitmapFont.Glyph glyph) {
         if (glyph.width > 0 && glyph.height > 0) {
-            data.descent = Math.min(((MyBitmapFontData) data).baseLine + glyph.yoffset, data.descent);
+            data.descent = Math.min(((DebugBitmapFontData) data).baseLine + glyph.yoffset, data.descent);
         }
     }
 
     public void updataDescent() {
         new AdjustAllRunable(data, 0, 0) {
             @Override
-            public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+            public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
                 data.descent = Math.min(data.baseLine + glyph.yoffset, data.descent);
             }
         };
@@ -266,20 +262,22 @@ public class AdjustLabel implements ReadWriteInterface {
 
     @Override
     public void read(FileHandle fileHandle) {
-        initBitmapFontArray(fileHandle);
+        data = new DebugBitmapFontData(fileHandle, false);
+        bitmapFont = new DebugBitmapFont(data, (TextureRegion) null, false);
     }
 
     @Override
     public void write(FileHandle fileHandle) {
+        data.write(fileHandle);
     }
 
     //用來修改全体char的回调函数
     public class AdjustAllRunable {
-        public AdjustAllRunable(MyBitmapFontData data, int offsetX, int offsetY) {
+        public AdjustAllRunable(DebugBitmapFontData data, int offsetX, int offsetY) {
             adjustAll(data, offsetX, offsetY);
         }
 
-        public AdjustAllRunable adjustAll(MyBitmapFontData data, int offsetX, int offsetY) {
+        public AdjustAllRunable adjustAll(DebugBitmapFontData data, int offsetX, int offsetY) {
             for (int ch : data.bitMapCharArray) {
                 BitmapFont.Glyph g = data.getGlyph((char) ch);
                 if (g != null && g.width > 0 && g.height > 0) {
@@ -289,7 +287,7 @@ public class AdjustLabel implements ReadWriteInterface {
             return this;
         }
 
-        public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+        public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
 
         }
     }
@@ -306,12 +304,12 @@ public class AdjustLabel implements ReadWriteInterface {
             }
         }
 
-        public void deal(MyBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
+        public void deal(DebugBitmapFontData data, BitmapFont.Glyph glyph, int offsetX, int offsetY) {
 
         }
     }
 
-    public MyBitmapFontData getBitmapFontData() {
+    public DebugBitmapFontData getBitmapFontData() {
         return data;
     }
 

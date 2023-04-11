@@ -27,18 +27,19 @@ import java.util.regex.Pattern;
                  ******    baseLine
     --------------------------------------
  */
-public class MyBitmapFontData extends BitmapFont.BitmapFontData {
+public class DebugBitmapFontData extends BitmapFont.BitmapFontData {
     public float baseLine = 0;
     public String firstLine;  //将字体文件第一行作为一个整体，因为一般不需要修改
     public int scaleW;
     public int scaleH;
     public int pageCount;
+    public String fileName;
 
     public HashMap<Integer, ExtraData> bitMapCharHashMap = new HashMap<>();
     public Array<Integer> bitMapCharArray = new Array<>();
     public Array<KerningData> bitMapCharKerningArray = new Array<>();
 
-    public MyBitmapFontData(FileHandle fontFile, boolean flip) {
+    public DebugBitmapFontData(FileHandle fontFile, boolean flip) {
         this.fontFile = fontFile;
         this.flipped = flip;
         load(fontFile, flip);
@@ -115,7 +116,7 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
 
                 matcher = Pattern.compile(".*file=\"?([^\"]+)\"?").matcher(line);
                 if (!matcher.find()) throw new GdxRuntimeException("Missing: file");
-                String fileName = matcher.group(1);
+                fileName = matcher.group(1);
 
                 imagePaths[p] = fontFile.parent().child(fileName).path().replaceAll("\\\\", "/");
             }
@@ -202,6 +203,8 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
             }
 
             adjustVariationValue();
+
+            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:22  " + ascent);
         } catch (Exception ex) {
             throw new GdxRuntimeException("Error loading font file: " + fontFile, ex);
         } finally {
@@ -281,9 +284,9 @@ public class MyBitmapFontData extends BitmapFont.BitmapFontData {
         sb.append(firstLine);
         //line2
         sb.append("\ncommon lineHeight=");
-        sb.append(lineHeight);
+        sb.append(((int) lineHeight));
         sb.append(" base=");
-        sb.append(baseLine);
+        sb.append((int) baseLine);
         sb.append(" scaleW=");
         sb.append(scaleW);
         sb.append(" scaleH=");

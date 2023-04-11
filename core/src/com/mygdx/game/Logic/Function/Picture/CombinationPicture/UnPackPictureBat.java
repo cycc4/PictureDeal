@@ -1,4 +1,4 @@
-package com.mygdx.game.Logic.CombinationPicture;
+package com.mygdx.game.Logic.Function.Picture.CombinationPicture;
 
 import com.badlogic.gdx.tools.texturepacker.TextureUnpacker;
 import com.mygdx.game.Logic.Tools.PictureTool;
