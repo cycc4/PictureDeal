@@ -218,7 +218,6 @@ public class AdjustLabel implements ReadWriteInterface {
         data.resetDescent();
         data.adjustVariationValue();
 
-        System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooo:  " + data.baseLine + "  lineHeight: " + data.lineHeight);
 //        updataDescent();
     }
 
@@ -238,19 +237,13 @@ public class AdjustLabel implements ReadWriteInterface {
 
     }
 
-
-    public BitmapFont.Glyph getGlyPh(BitmapFont bitmapFont, int charId) {
-        BitmapFont.Glyph[] page = bitmapFont.getData().glyphs[charId];
-        if (page != null) {
-            return page[charId];
-        }
-        return null;
+    public BitmapFont.Glyph getGlyPh(char charC) {
+        return bitmapFont.getData().getGlyph(charC);
     }
 
     public DebugBitmapFont getBitMapFont() {
         return bitmapFont;
     }
-
 
     public void changeSize(int width, int height) {
 

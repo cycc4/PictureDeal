@@ -19,7 +19,7 @@ public class IncreaseAndDecreaseComponent extends Group {
         this.increaseActor = increaseActor;
         this.decreaseActor = decreaseActor;
 
-        creaseLabel = ActorFactory.getLabel(changeText + "", Res.DEFAULT_36_PATH);
+        creaseLabel = ActorFactory.getLabel(changeText + "", Res.DEFAULT_FNT_30);
         creaseLabel.setAlignment(Align.center);
         addActor(creaseLabel);
 

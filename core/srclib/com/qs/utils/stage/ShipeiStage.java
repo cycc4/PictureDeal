@@ -57,7 +57,12 @@ public class ShipeiStage extends Stage {
         return mViewport.getYMore();
     }
 
-//    public Group getExactlyRoot() {
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    //    public Group getExactlyRoot() {
 //        return super.getRoot();
 //    }
 //

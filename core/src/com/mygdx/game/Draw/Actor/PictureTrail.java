@@ -1,4 +1,7 @@
 package com.mygdx.game.Draw.Actor;
+/*
+ * 图片拖尾效果实现
+ */
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;

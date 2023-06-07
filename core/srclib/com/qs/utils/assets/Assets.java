@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.esotericsoftware.spine.SkeletonData;
+import com.esotericsoftware.spine.utils.SkeletonDataLoader;
 import com.qs.ui.ManagerUIEditor;
 import com.qs.ui.loader.ManagerUILoader;
 import com.qs.ui.plist.PlistAtlas;
@@ -62,8 +64,16 @@ public class Assets implements Disposable {
         return LoadRes(bitmapFontName, BitmapFont.class, bitmapFontParameter);
     }
 
+    public SkeletonData getSkeletonData(String path, String atlasPath) {
+        if (atlasPath == null) {
+            return LoadRes(path, SkeletonData.class);
+        } else {
+            return LoadRes(path, SkeletonData.class, new SkeletonDataLoader.SkeletonDataParameter(atlasPath));
+        }
+    }
+
     public <T> T LoadRes(String fileName, Class<T> type) {
-        return LoadRes(fileName, type);
+        return LoadRes(fileName, type, null);
     }
 
     public <T> T LoadRes(String fileName, Class<T> type, AssetLoaderParameters<T> parameter) {

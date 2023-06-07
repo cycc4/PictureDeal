@@ -3,7 +3,6 @@ package com.mygdx.game.Draw.Layout.Label;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -63,18 +62,15 @@ public class FntAdjustLayoutOld extends BaseLayout {
             @Override
             protected void callback(FileHandle readFileHandle, String writeFileHandle) {
                 if (readFileHandle.name().endsWith(".fnt")) {
-//                    AdjustLabel adjustLabel = new AdjustLabel();
-//                    adjustLabel.read(readFileHandle);
-//                    adjustLabelArray.add(adjustLabel);
                     readFntFile(readFileHandle);
                 }
             }
         };
 
-        Group adjustTableGroup = ActorFactory.createCsdJson(Assets.getIns().getAssetManager(), Res.FNT_ADJUST_LAYOUT);
+        Group adjustTableGroup = ActorFactory.createCsdJson(Assets.getIns().getAssetManager(), Res.LAYOUT_DIR + "adjustTableOld.json");
         final Group adjustList = adjustTableGroup.findActor("adjustList");
         setSize(adjustTableGroup.getWidth(), adjustTableGroup.getHeight());
-        cameraBaseLayerout();
+        cameraBaseLayout();
 //
         addActor(adjustTableGroup);
         positionButton = new CrossButton(adjustList.<Group>findActor("positionGroup")) {
@@ -296,26 +292,14 @@ public class FntAdjustLayoutOld extends BaseLayout {
         chickAll.setChecked(true);
         isChickAll = !chickAll.isChecked();
 
-        saveButton = new TextButton(adjustList.<Group>findActor("saveButton"), "save") {
-            @Override
-            public void click() {
-                getAdjustLabel().write(new FileHandle(mainGame.getToolManager().getWritePath() + File.separator + getAdjustLabel().getBitmapFontData().fileName.replace(".png", ".fnt")));
-            }
-        };
-
-        resetButton = new TextButton(adjustList.<Group>findActor("resetButton"), "reset") {
-            @Override
-            public void click() {
-                reset();
-            }
-        };
-
         centerShowLayerX = (adjustTableGroup.getWidth() - adjustList.getWidth()) / 2f;
         centerShowLayerY = adjustTableGroup.getHeight() / 2f;
 
-        showLabel = new DebugLabel(defaultText, new Label.LabelStyle(getAdjustLabel().getBitMapFont(), Color.WHITE));
-        BitmapFont.Glyph g = showLabel.getStyle().font.getData().getGlyph('3');
-        System.out.println("id: " + g.id + " offsetX " + g.xoffset + " offsetY " + g.yoffset);
+        try {
+            showLabel = new DebugLabel(defaultText, new Label.LabelStyle(getAdjustLabel().getBitMapFont(), Color.WHITE));
+        } catch (Exception e) {
+            showLabel = new DebugLabel("", new Label.LabelStyle(getAdjustLabel().getBitMapFont(), Color.WHITE));
+        }
         showLabel.setAlignment(Align.center);
         showLabel.setPosition(240, 291, Align.center);
         showLabel.addListener(new DragClickListener());

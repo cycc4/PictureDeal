@@ -2,18 +2,16 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mygdx.game.Draw.DialogManage;
-import com.mygdx.game.Draw.Layout.Label.FntAdjustLayoutOld;
-import com.mygdx.game.Logic.AdjustJson;
-import com.mygdx.game.Logic.ToolsFactory;
+import com.mygdx.game.Draw.Layout.Label.AdjustBitmapFont.FntAdjustLayout;
 
 public class MyGdxGame extends ApplicationAdapter {
     private Stage stage;
     private ToolsFactory toolManager;
+    //弹窗
     private DialogManage dialogManage;
 
     private String[] formalParameter;
@@ -50,15 +48,24 @@ public class MyGdxGame extends ApplicationAdapter {
 //        FntAdjustLayout fntAdjustLayout = new FntAdjustLayout(this);
 //        stage.addActor(fntAdjustLayout);
 
-//        FntAdjustLayoutOld fntAdjustEqualWidthLayout = new FntAdjustLayoutOld(this);
+//        FntAdjustEqualWidthLayout fntAdjustEqualWidthLayout = new FntAdjustEqualWidthLayout(this);
 //        stage.addActor(fntAdjustEqualWidthLayout);
-//        Label ceshiLabel = ActorFactory.getLabel("123", "Old/PR-Columban_96-ZSH.fnt");
-//        System.out.println("ppppppppppppppppppppppppppppp:  " + ceshiLabel.getPrefWidth()+"   "+ceshiLabel.getWidth());
-//        ceshiLabel.setPosition(Constants.WORLD_WIDTH / 2f, Constants.WORLD_HEIGHT / 2f, Align.center);
-//        stage.addActor(ceshiLabel);
 
-        AdjustJson adjustJson = new AdjustJson();
-        adjustJson.read(new FileHandle(toolManager.getReadPath()), toolManager.getWritePath());
+//        FntAdjustLayoutOld fntAdjustLayout = new FntAdjustLayoutOld(this);
+//        stage.addActor(fntAdjustLayout);
+
+//        AdjustJson adjustJson = new AdjustJson();
+//        adjustJson.read(new FileHandle(toolManager.getReadPath()), toolManager.getWritePath());
+
+//        AdjustParticle aa = new AdjustParticle();
+//        aa.read(new FileHandle(toolManager.getReadPath()), toolManager.getWritePath());
+
+//        FntAdjustLayout fal = new FntAdjustLayout(this);
+//        stage.addActor(fal);
+        stage.addActor(new FntAdjustLayout(this));
+
+//        ShowSpine showSpine = new ShowSpine(this);
+//        stage.addActor(showSpine);
     }
 
     public Stage getStage() {

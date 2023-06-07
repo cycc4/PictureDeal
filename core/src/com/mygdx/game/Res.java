@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
 public class Res {
-    //font
-    public static final String DEFAULT_36_PATH = "Assets/Fnt/Neuron-Regular_36.fnt";
-    //AdjustTable
-    public static final String FNT_ADJUST_LAYOUT = "Assets/Layer/Fnt/adjustTable.json";
-    public static final String FNT_CHAR_DATA = "Assets/Layer/Fnt/charData.json";
-    public static final String FNT_FNT_DATA = "Assets/Layer/Fnt/fntData.json";
     //picture Path
+    public static final String LAYOUT_DIR = "Assets/Layer/";
     public static final String PICTURE_DIR = "Assets/Picture/";
+    //Font Path
+    public static final String FONT_DIR = "Assets/Fnt/";
+    //font
+//    public static final String DEFAULT_FNT_36 = FONT_DIR + "Neuron-Regular_36.fnt";
+    public static final String DEFAULT_FNT_18 = FONT_DIR + "18-export.fnt";
+    public static final String DEFAULT_FNT_30 = FONT_DIR + "30-export.fnt";
+    public static final String DEFAULT_FNT_72 = FONT_DIR + "72-export.fnt";
 }

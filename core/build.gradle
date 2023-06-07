@@ -8,6 +8,7 @@ dependencies {
     implementation files('libs\\fastjson-1.2.80.jar')
     implementation files('libs\\spine-libgdx-3895\\spine-libgdx-3895.jar')
     implementation("com.alibaba:fastjson:1.2.83")
+//    implementation files('../libs/spine-libgdx-3895/spine-libgdx-3895.jar')
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

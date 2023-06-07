@@ -28,22 +28,5 @@
         <LastRunType Value="Windows" />
       </Value>
     </Item>
-    <Item Key="TabsParamsKey">
-      <Value ctype="TabsInfo">
-        <OpenedDocuments>
-          <FilePathData Path="Assets/Nine/NineLayer.csd" />
-          <FilePathData Path="Assets/Nine/NineRightLayer.csd" />
-          <FilePathData Path="Assets/Button/FiveButton.csd" />
-          <FilePathData Path="Assets/Button/TwoButton.csd" />
-          <FilePathData Path="Assets/Layer/Fnt/adjustTable.csd" />
-          <FilePathData Path="Assets/Layer/Fnt/adjustList.csd" />
-          <FilePathData Path="Assets/Button/TextButton.csd" />
-          <FilePathData Path="Assets/Button/TextField.csd" />
-          <FilePathData Path="Assets/Button/AddAndSubButton.csd" />
-          <FilePathData Path="Assets/Layer/Fnt/adjust.csd" />
-        </OpenedDocuments>
-        <ActiveDocument Path="Assets/Layer/Fnt/adjustTable.csd" />
-      </Value>
-    </Item>
   </Properties>
 </UserData>

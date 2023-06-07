@@ -1,9 +1,7 @@
-package com.mygdx.game.Logic;
+package com.mygdx.game;
 
-import com.mygdx.game.Constants;
 import com.mygdx.game.Logic.Function.Particle.ParticleCombination.ParticleComposite;
 import com.mygdx.game.Logic.Function.Picture.ProcessPicturePixels.ModifyBlankPixels.DealPictureRGB4;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Logic.Function.Spine.SpineCombination.SpineCombination;
 
 public class ToolsFactory {
@@ -48,7 +46,7 @@ public class ToolsFactory {
 
     //调整字体
     public void adjustLabel() {
-
+//        FntAdjustLayoutA fntAdjustLayoutA = new FntAdjustLayoutA(myGdxGame);
     }
 
     public String getReadPath() {

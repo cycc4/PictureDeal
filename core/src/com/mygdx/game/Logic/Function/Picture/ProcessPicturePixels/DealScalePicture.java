@@ -77,7 +77,6 @@ public class DealScalePicture extends Game {
                 boolean alphaPremultiplied = cm.isAlphaPremultiplied();
                 newImage = new BufferedImage(cm, raster, alphaPremultiplied, null);
             } else {
-                System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:  ");
                 newImage = new BufferedImage(w, h, type);
                 Graphics2D g = newImage.createGraphics();
                 g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);

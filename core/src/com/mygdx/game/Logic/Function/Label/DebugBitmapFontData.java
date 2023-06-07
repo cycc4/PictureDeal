@@ -204,7 +204,6 @@ public class DebugBitmapFontData extends BitmapFont.BitmapFontData {
 
             adjustVariationValue();
 
-            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:22  " + ascent);
         } catch (Exception ex) {
             throw new GdxRuntimeException("Error loading font file: " + fontFile, ex);
         } finally {
